@@ -44,12 +44,11 @@ public final class VelocityResourcePack extends ResourcePack {
     private void runSetResourcePack(UUID uuid) {
         final Player player = velocityPlugin.getServer().getPlayer(uuid).orElse(null);
         if (player == null) return;
-
         final ResourcePackInfo.Builder infoBuilder = velocityPlugin.getServer()
                 .createResourcePackBuilder(getURL())
                 .setHash(getHashSum())
-                .setId(this.uuid)
-                .setShouldForce(velocityPlugin.getConfig().getBoolean("use-new-force-pack-screen", true));
+                .setId(this.uuid);
+
 
         final VelocityConfig serverConfig;
         if (server.contains(ForcePackVelocity.GLOBAL_SERVER_NAME)) {
@@ -68,7 +67,9 @@ public final class VelocityResourcePack extends ResourcePack {
         if (serverConfig != null) {
             final String promptText = serverConfig.getConfig("resourcepack").getString("prompt");
             final Component promptComponent = velocityPlugin.getMiniMessage().deserialize(promptText);
+            boolean serverShouldForce = serverConfig.getConfig("resourcepack").getBoolean("use-new-force-pack-screen", true);
             infoBuilder.setPrompt(promptComponent);
+            infoBuilder.setShouldForce(serverShouldForce);
         }
 
         final ResourcePackInfo built = infoBuilder.build();

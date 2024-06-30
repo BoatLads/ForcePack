@@ -38,6 +38,7 @@ allprojects {
             exclude("org.checkerframework")
         }
         annotationProcessor("org.incendo:cloud-annotations:${properties["cloud_version"]}")
+        compileOnly("com.github.retrooper.packetevents:api:2.3.0")
     }
 
     repositories {
